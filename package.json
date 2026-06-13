@@ -11,7 +11,6 @@
     "node": ">= 22",
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
-    "pnpm": "9.x"
-  },
-  "packageManager": "pnpm@9.15.5"
+    "pnpm": ">=9"
+  }
 }
