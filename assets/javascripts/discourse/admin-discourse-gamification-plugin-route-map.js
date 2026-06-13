@@ -11,5 +11,9 @@ export default {
         this.route("show", { path: "/:id" });
       }
     );
+    this.route(
+      "discourse-gamification-rewards",
+      { path: "rewards" }
+    );
   },
 };

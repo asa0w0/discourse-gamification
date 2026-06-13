@@ -24,6 +24,10 @@ de:
     chat_reaction_given_score_value: "Der Wert des Beifalls, der für jede Reaktion vergeben wird, die ein Benutzer für eine Chat-Nachricht gibt"
     chat_message_created_score_value: "Der Wert des Beifalls, der für jede Nachricht vergeben wird, die ein Benutzer in einem Chat sendet"
     score_ranking_strategy: "Strategie für die Ranglistenposition"
+    visit_streak_score_value: "Der Wert des Beifalls, der für jeden Tag des täglichen Besuchs-Streaks vergeben wird"
+    visit_streak_minimum_days: "Mindestanzahl an aufeinanderfolgenden Tagen, um Punkte für einen Streak zu erhalten"
+    wiki_edit_score_value: "Der Wert des Beifalls, der für das Bearbeiten von Wiki-Beiträgen anderer vergeben wird"
+    gamification_shop_enabled: "Aktiviere den Punkte-Shop/Belohnungsspeicher"
   score: "Beifall"
   default_leaderboard_name: "Globale Rangliste"
   rate_limiter:
@@ -31,3 +35,9 @@ de:
       recalculate_scores_remaining: "Du hast die maximale Anzahl an Score-Neuberechnungen erreicht. Bitte warte %{time_left}, bevor du es wieder versuchst."
   errors:
     leaderboard_positions_not_ready: "Wir generieren gerade deine Rangliste. Versuche es in ein paar Minuten noch einmal."
+  gamification:
+    shop:
+      insufficient_points: "Du hast nicht genügend Punkte."
+      redeemed_item: "Eingelöst: %{name}"
+      refund_item: "Erstattet: %{name}"
+

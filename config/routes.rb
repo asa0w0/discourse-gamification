@@ -2,6 +2,10 @@
 
 DiscourseGamification::Engine.routes.draw do
   get "/" => "gamification_leaderboard#respond"
+  get "/shop" => "shop#index"
+  post "/shop/buy" => "shop#buy"
+  post "/shop/inventory/:id/toggle_equip" => "shop#toggle_equip"
+  get "/user-inventory/:username" => "shop#user_inventory"
   get "/:id" => "gamification_leaderboard#respond"
 end
 
@@ -11,6 +15,15 @@ Discourse::Application.routes.draw do
   scope "/admin/plugins/discourse-gamification", constraints: StaffConstraint.new do
     get "/leaderboards" => "discourse_gamification/admin_gamification_leaderboard#index"
     get "/leaderboards/:id" => "discourse_gamification/admin_gamification_leaderboard#show"
+
+    get "/rewards" => "discourse_gamification/admin_rewards#rewards"
+    post "/rewards" => "discourse_gamification/admin_rewards#create_reward"
+    put "/rewards/:id" => "discourse_gamification/admin_rewards#update_reward"
+    delete "/rewards/:id" => "discourse_gamification/admin_rewards#delete_reward"
+
+    get "/redemptions" => "discourse_gamification/admin_rewards#redemptions"
+    post "/redemptions/:id/approve" => "discourse_gamification/admin_rewards#approve_redemption"
+    post "/redemptions/:id/reject" => "discourse_gamification/admin_rewards#reject_redemption"
   end
 
   get "/admin/plugins/gamification" =>

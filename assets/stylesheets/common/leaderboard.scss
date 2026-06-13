@@ -312,3 +312,289 @@
     color: var(--primary-high);
   }
 }
+
+.gamification-navigation-tabs {
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 2px solid var(--primary-low);
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+
+  .gamification-tab-link {
+    font-size: var(--font-up-2);
+    font-weight: bold;
+    color: var(--primary-high);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+
+    &:hover {
+      color: var(--tertiary);
+    }
+
+    &.active {
+      color: var(--tertiary);
+      border-bottom: 3px solid var(--tertiary);
+      margin-bottom: -0.7rem;
+    }
+  }
+}
+
+.shop-dashboard-card {
+  background: rgba(var(--tertiary-rgb), 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(var(--tertiary-rgb), 0.15);
+
+  .balance-label {
+    font-size: var(--font-up-4);
+    font-weight: bold;
+    color: var(--primary-strong);
+  }
+
+  .shop-sub-tabs {
+    display: flex;
+    gap: 1rem;
+    
+    .shop-sub-tab {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: var(--font-up-1);
+      font-weight: bold;
+      color: var(--primary-medium);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba(var(--primary-rgb), 0.05);
+        color: var(--primary-high);
+      }
+
+      &.active {
+        background: var(--tertiary);
+        color: var(--secondary);
+      }
+    }
+  }
+}
+
+.shop-grid, .inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.shop-item-card, .inventory-item-card {
+  background: var(--secondary);
+  border: 1px solid var(--primary-low);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  &.equipped {
+    border-color: var(--success);
+    box-shadow: 0 4px 16px rgba(var(--success-rgb), 0.12);
+  }
+
+  .shop-item-icon-wrapper, .inventory-item-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: rgba(var(--tertiary-rgb), 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    position: relative;
+
+    .d-icon {
+      font-size: 24px;
+      color: var(--tertiary);
+    }
+
+    .equipped-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      background: var(--success);
+      color: var(--secondary);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+
+      .d-icon {
+        font-size: 10px;
+        color: var(--secondary);
+      }
+    }
+  }
+
+  .shop-item-name, .inventory-item-name {
+    font-size: var(--font-up-2);
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .shop-item-description, .inventory-item-description {
+    font-size: var(--font-down-1);
+    color: var(--primary-medium);
+    flex-grow: 1;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.4;
+  }
+
+  .shop-item-footer, .inventory-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+
+    .shop-item-cost {
+      font-weight: bold;
+      font-size: var(--font-up-2);
+      color: var(--primary-strong);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      .d-icon {
+        color: var(--tertiary);
+      }
+    }
+
+    .inventory-item-status {
+      font-weight: bold;
+      font-size: var(--font-down-1);
+      text-transform: uppercase;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+
+      &.status-pending {
+        color: var(--primary-medium);
+        background: var(--primary-low);
+      }
+      &.status-delivered {
+        color: var(--success);
+        background: rgba(var(--success-rgb), 0.15);
+      }
+      &.status-rejected {
+        color: var(--danger);
+        background: rgba(var(--danger-rgb), 0.15);
+      }
+    }
+  }
+}
+
+.empty-inventory {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--primary-medium);
+
+  .d-icon {
+    font-size: 48px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: var(--font-up-2);
+    margin: 0;
+  }
+}
+
+.user__rank-change {
+  font-size: 10px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+
+  &.up {
+    color: var(--success);
+    background-color: rgba(var(--success-rgb), 0.15);
+  }
+
+  &.down {
+    color: var(--danger);
+    background-color: rgba(var(--danger-rgb), 0.15);
+  }
+}
+
+.gamification-top-rank-crown {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+
+  .d-icon {
+    font-size: 14px;
+  }
+
+  &.-position1 .d-icon {
+    color: #ffd82a;
+  }
+
+  &.-position2 .d-icon {
+    color: #c4c4c4;
+  }
+
+  &.-position3 .d-icon {
+    color: #cd7f32;
+  }
+}
+
+// Admin Tab Buttons styling
+.admin-rewards-container {
+  .admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    border-bottom: 1px solid var(--primary-low);
+    padding-bottom: 0.5rem;
+
+    .admin-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: var(--font-up-1);
+      font-weight: bold;
+      color: var(--primary-medium);
+      cursor: pointer;
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(var(--primary-rgb), 0.05);
+        color: var(--primary-high);
+      }
+
+      &.active {
+        background: var(--tertiary);
+        color: var(--secondary);
+      }
+    }
+  }
+}
+

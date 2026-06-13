@@ -154,6 +154,15 @@ export default class GamificationLeaderboard extends Component {
         />
       </div>
 
+      <div class="gamification-navigation-tabs">
+        <LinkTo @route="gamificationLeaderboard.index" class="gamification-tab-link active">
+          {{icon "award"}} {{i18n "gamification.leaderboard.title"}}
+        </LinkTo>
+        <LinkTo @route="gamificationLeaderboard.shop" class="gamification-tab-link">
+          {{icon "gift"}} {{i18n "gamification.shop.title"}}
+        </LinkTo>
+      </div>
+
       <div class="leaderboard__controls">
         <PeriodChooser
           @period={{this.period}}

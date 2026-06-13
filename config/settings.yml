@@ -42,3 +42,12 @@ discourse_gamification:
       - dense_rank
       - rank
       - row_number
+  visit_streak_score_value:
+    default: 2
+  visit_streak_minimum_days:
+    default: 3
+  wiki_edit_score_value:
+    default: 2
+  gamification_shop_enabled:
+    default: true
+    client: true

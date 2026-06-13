@@ -18,6 +18,10 @@ en:
     chat_reaction_given_score_value: "The value of the cheer awarded for every reaction a user gives to a chat message"
     chat_message_created_score_value: "The value of the cheer awarded for every message a user sends in a chat"
     score_ranking_strategy: "Leaderboard position ranking strategy"
+    visit_streak_score_value: "The value of the cheer awarded for daily visit streak"
+    visit_streak_minimum_days: "Minimum consecutive days to start receiving streak points"
+    wiki_edit_score_value: "The value of the cheer awarded for editing a wiki post by others"
+    gamification_shop_enabled: "Enable the gamification shop/rewards store"
   score: "Cheers"
   default_leaderboard_name: "Global Leaderboard"
   rate_limiter:
@@ -25,3 +29,9 @@ en:
       recalculate_scores_remaining: "You’ve reached the maximum number of recalculating scores. Please wait %{time_left} before trying again."
   errors:
     leaderboard_positions_not_ready: "We are generating your leaderboard. Try again in a few minutes."
+  gamification:
+    shop:
+      insufficient_points: "You don't have enough points."
+      redeemed_item: "Redeemed: %{name}"
+      refund_item: "Refunded: %{name}"
+

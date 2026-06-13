@@ -23,6 +23,23 @@ register_svg_icon "award"
 
 module ::DiscourseGamification
   PLUGIN_NAME = "discourse-gamification"
+
+  def self.top_ranks
+    Discourse.cache.fetch("gamification_top_3_ranks", expires_in: 10.minutes) do
+      leaderboard = DiscourseGamification::GamificationLeaderboard.first
+      if leaderboard
+        begin
+          DiscourseGamification::LeaderboardCachedView.new(leaderboard).scores(limit: 3).map do |u|
+            { user_id: u.id, position: u.position }
+          end
+        rescue DiscourseGamification::LeaderboardCachedView::NotReadyError
+          []
+        end
+      else
+        []
+      end
+    end
+  end
 end
 
 require_relative "lib/discourse_gamification/engine"
@@ -56,6 +73,8 @@ after_initialize do
   require_relative "lib/discourse_gamification/scorables/time_read"
   require_relative "lib/discourse_gamification/scorables/topic_created"
   require_relative "lib/discourse_gamification/scorables/user_invited"
+  require_relative "lib/discourse_gamification/scorables/visit_streak"
+  require_relative "lib/discourse_gamification/scorables/wiki_edit"
   require_relative "lib/discourse_gamification/user_extension"
   require_relative "lib/discourse_gamification/scorables/reaction_given"
   require_relative "lib/discourse_gamification/scorables/reaction_received"
@@ -98,6 +117,10 @@ after_initialize do
   end
 
   add_to_serializer(:user_card, :gamification_score) { object.gamification_score }
+  add_to_serializer(:basic_user, :gamification_position) do
+    top = DiscourseGamification.top_ranks.find { |r| r[:user_id] == object.id }
+    top ? top[:position] : nil
+  end
   add_to_serializer(:site, :default_gamification_leaderboard_id) do
     DiscourseGamification::GamificationLeaderboard.first&.id
   end

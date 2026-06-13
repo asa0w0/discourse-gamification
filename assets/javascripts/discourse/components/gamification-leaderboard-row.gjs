@@ -9,12 +9,47 @@ import fullnumber from "../helpers/fullnumber";
 export default class GamificationLeaderboardRow extends Component {
   rank = null;
 
+  get positionChange() {
+    return this.rank.position_change || 0;
+  }
+
+  get rankChangeClass() {
+    const change = this.positionChange;
+    if (change > 0) {
+      return "up";
+    } else if (change < 0) {
+      return "down";
+    }
+    return "no-change";
+  }
+
+  get rankChangeSymbol() {
+    const change = this.positionChange;
+    if (change > 0) {
+      return "▲";
+    } else if (change < 0) {
+      return "▼";
+    }
+    return "";
+  }
+
+  get absRankChange() {
+    return Math.abs(this.positionChange);
+  }
+
   <template>
     <div
       class="user {{if this.rank.currentUser 'user-highlight'}}"
       id="leaderboard-user-{{this.rank.id}}"
     >
-      <div class="user__rank">{{this.rank.position}}</div>
+      <div class="user__rank">
+        <span class="user__position">{{this.rank.position}}</span>
+        {{#if this.positionChange}}
+          <span class="user__rank-change {{this.rankChangeClass}}" title="Rangänderung im Vergleich zum Vortag">
+            {{this.rankChangeSymbol}}{{this.absRankChange}}
+          </span>
+        {{/if}}
+      </div>
       <div
         class="user__avatar clickable"
         role="button"

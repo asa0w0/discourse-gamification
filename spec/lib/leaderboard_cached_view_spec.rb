@@ -52,13 +52,13 @@ describe DiscourseGamification::LeaderboardCachedView do
     end
 
     it "refreshes leaderboard materialized views with the latest scores" do
-      expect(DB.query_hash("SELECT * FROM #{mviews.first}")).to include(
+      expect(DB.query_hash("SELECT total_score, user_id, position FROM #{mviews.first}")).to include(
         { "total_score" => 0, "user_id" => user.id, "position" => 1 },
       )
 
       described_class.new(leaderboard).refresh
 
-      expect(DB.query_hash("SELECT * FROM #{mviews.first}")).to include(
+      expect(DB.query_hash("SELECT total_score, user_id, position FROM #{mviews.first}")).to include(
         { "total_score" => 10, "user_id" => user.id, "position" => 2 },
         { "total_score" => 5, "user_id" => other_user.id, "position" => 3 },
         { "total_score" => 20, "user_id" => admin.id, "position" => 1 },
@@ -214,7 +214,7 @@ describe DiscourseGamification::LeaderboardCachedView do
         end
 
         it "returns ranked scores skipping the next rank after duplicates" do
-          expect(leaderboard_positions.scores.map(&:attributes)).to eq(
+          expect(leaderboard_positions.scores.map { |s| s.attributes.except("position_change") }).to eq(
             [
               {
                 "total_score" => 50,
@@ -261,7 +261,7 @@ describe DiscourseGamification::LeaderboardCachedView do
         end
 
         it "returns ranked scores without skipping the next rank after duplicates" do
-          expect(leaderboard_positions.scores.map(&:attributes)).to eq(
+          expect(leaderboard_positions.scores.map { |s| s.attributes.except("position_change") }).to eq(
             [
               {
                 "total_score" => 50,
@@ -308,7 +308,7 @@ describe DiscourseGamification::LeaderboardCachedView do
         end
 
         it "returns ranked scores without distinguishing duplicates" do
-          expect(leaderboard_positions.scores.map(&:attributes)).to eq(
+          expect(leaderboard_positions.scores.map { |s| s.attributes.except("position_change") }).to eq(
             [
               {
                 "total_score" => 50,

@@ -50,7 +50,7 @@ describe Jobs::UpdateScoresForToday do
       run_job
 
       expect(leaderboard_1_positions.scores.length).to eq(2)
-      expect(leaderboard_1_positions.scores.map(&:attributes)).to include(
+      expect(leaderboard_1_positions.scores.map { |s| s.attributes.except("position_change") }).to include(
         {
           "id" => user.id,
           "total_score" => 12,
@@ -75,7 +75,7 @@ describe Jobs::UpdateScoresForToday do
       DiscourseGamification::GamificationScore.calculate_scores
       DiscourseGamification::LeaderboardCachedView.create_all
 
-      expect(leaderboard_1_positions.scores.map(&:attributes)).to include(
+      expect(leaderboard_1_positions.scores.map { |s| s.attributes.except("position_change") }).to include(
         {
           "id" => user.id,
           "total_score" => 12,
@@ -98,7 +98,7 @@ describe Jobs::UpdateScoresForToday do
 
       run_job
 
-      expect(leaderboard_1_positions.scores.map(&:attributes)).to include(
+      expect(leaderboard_1_positions.scores.map { |s| s.attributes.except("position_change") }).to include(
         {
           "id" => user.id,
           "total_score" => 12,
@@ -137,7 +137,7 @@ describe Jobs::UpdateScoresForToday do
       expect(leaderboard_2_positions.stale?).to eq(false)
 
       expect(leaderboard_1_positions.scores.length).to eq(2)
-      expect(leaderboard_1_positions.scores.map(&:attributes)).to include(
+      expect(leaderboard_1_positions.scores.map { |s| s.attributes.except("position_change") }).to include(
         {
           "id" => user.id,
           "total_score" => 12,

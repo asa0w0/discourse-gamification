@@ -56,7 +56,7 @@ module ::DiscourseGamification
           .where(*user_filter_condition)
           .joins("INNER JOIN #{mview_name(period)} p ON  p.user_id = users.id")
           .select(
-            "users.id, users.name, users.username, users.uploaded_avatar_id, p.total_score, p.position",
+            "users.id, users.name, users.username, users.uploaded_avatar_id, p.total_score, p.position, p.position_change",
           )
           .limit(limit)
           .offset(offset)
@@ -195,26 +195,57 @@ module ::DiscourseGamification
                 gs.date >= COALESCE(#{period_start_sql(period)}, gs.date)
             END)
             AND gs.date <= CURRENT_DATE -- Ensure scores are not from the future
+        ),
+
+        current_scores AS (
+          SELECT
+            lu.id AS user_id,
+            SUM(COALESCE(s.score, 0)) AS total_score,
+            #{ranking_function} OVER (ORDER BY SUM(COALESCE(s.score, 0)) DESC#{ranking_tie_breaker}) AS position
+          FROM
+            leaderboard_users lu
+          INNER JOIN
+            scores s ON s.user_id = lu.id
+          GROUP BY
+            lu.id
+        ),
+
+        yesterday_scores AS (
+          SELECT
+            lu.id AS user_id,
+            SUM(COALESCE(s.score, 0)) AS total_score,
+            #{ranking_function} OVER (ORDER BY SUM(COALESCE(s.score, 0)) DESC#{ranking_tie_breaker}) AS position
+          FROM
+            leaderboard_users lu
+          INNER JOIN
+            scores s ON s.user_id = lu.id
+          WHERE
+            s.date < CURRENT_DATE
+          GROUP BY
+            lu.id
         )
 
         SELECT
-         lu.id AS user_id,
-         SUM(COALESCE(s.score, 0)) AS total_score,
-         #{ranking_function} OVER (ORDER BY SUM(COALESCE(s.score, 0)) DESC) AS position
+          cs.user_id,
+          cs.total_score,
+          cs.position,
+          COALESCE(ys.position - cs.position, 0) AS position_change
         FROM
-          leaderboard_users lu
-        INNER JOIN
-          scores s ON s.user_id = lu.id
-        GROUP BY
-          lu.id
+          current_scores cs
+        LEFT JOIN
+          yesterday_scores ys ON ys.user_id = cs.user_id
         ORDER BY
-          position ASC,
-          user_id ASC
+          cs.position ASC,
+          cs.user_id ASC
       SQL
     end
 
     def ranking_function
       SCORE_RANKING_STRATEGY_MAP[SiteSetting.score_ranking_strategy.to_sym]
+    end
+
+    def ranking_tie_breaker
+      SiteSetting.score_ranking_strategy.to_sym == :row_number ? ", lu.id ASC" : ""
     end
 
     def refresh_mview(period)
